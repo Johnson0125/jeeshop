@@ -1,0 +1,57 @@
+<div class="text-center" ng-controller="MailItemsController as mailItemsCtrl">
+    <div id="loaderDiv" ng-show="mailItemsCtrl.isProcessing">
+        <img src="images/loading.gif" class="ajax-loader"/>
+    </div>
+    <div ng-hide="mailItemsCtrl.isProcessing || ('**.detail' | includedByState)">
+        <div class ="row" style="margin-top:1em">
+            <div class="col-md-6 text-left">
+                Show
+                <select ng-model="mailItemsCtrl.pageSize" ng-change="mailItemsCtrl.findEntries()">
+                    <option value="10">10</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                elements per page
+            </div>
+            <div class="col-md-6 text-left">
+                <p class="input-group">
+                    <input type="text" class="form-control" placeholder="Enter e-mail template name ..." ng-model="mailItemsCtrl.searchValue"/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="mailItemsCtrl.findEntries()"><i class="glyphicon glyphicon-search"></i></button>
+                    <button type="button" class="btn btn-default" ui-sref=".detail"><i
+                            class="glyphicon glyphicon-plus" title="Go back to items list"></i></button>
+                </span>
+                </p>
+            </div>
+        </div>
+        <table class="table table-striped table-hover table-condensed text-left">
+            <thead>
+            <tr>
+                <th><a href="" ng-click="mailItemsCtrl.findEntries('id')">ID</a></th>
+                <th><a href="" ng-click="mailItemsCtrl.findEntries('name')">Name</a></th>
+                <th><a href="" ng-click="mailItemsCtrl.findEntries('locale')">Locale</a></th>
+                <th class="hidden-xs hidden-sm"><a href="" ng-click="mailItemsCtrl.findEntries('creationDate')">Creation date</a></th>
+                <th class="hidden-xs hidden-sm"><a href="" ng-click="mailItemsCtrl.findEntries('updateDate')">Last modification</a></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="entry in mailItemsCtrl.entries" style="cursor:pointer" >
+                <td ui-sref=".detail({mailId : entry.id})">{{entry.id}}</td>
+                <td ui-sref=".detail({mailId : entry.id})">{{entry.name}}</td>
+                <td ui-sref=".detail({mailId : entry.id})">{{entry.locale}}</td>
+                <td ui-sref=".detail({mailId : entry.id})">{{entry.creationDate|date : 'medium'}}</td>
+                <td ui-sref=".detail({mailId : entry.id})">{{entry.updateDate|date : 'medium'}}</td>
+                <td>
+                    <a ng-click="mailItemsCtrl.delete($index,'This will delete item #'+entry.id)" href="" class="glyphicon glyphicon-trash"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <pagination total-items="mailItemsCtrl.totalCount" ng-model="mailItemsCtrl.currentPage" ng-change="mailItemsCtrl.pageChanged()"
+                    items-per-page="mailItemsCtrl.pageSize" class="pagination-sm" boundary-links="true" rotate="false"></pagination>
+    </div>
+
+    <div ui-view></div>
+
+</div>

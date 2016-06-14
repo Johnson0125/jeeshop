@@ -94,17 +94,21 @@
                 url: "/mail",
                 templateUrl: "modules/mail/index.html"
             })
-            .state('mail.templates', {
-                url: "/mail",
-                templateUrl: "modules/mail/mailtemplate-entries.html"
+            .state('mail.entries', {
+                url: "rs/:resource",
+                templateUrl: function ($stateParams) {
+                    return 'modules/mail/mail-entries.html';
+                }
             })
             .state('mail.operations', {
-                url: "/mail",
+                url: "/operations",
                 templateUrl: "modules/mail/mail-operations.html"
             })
-            .state('mail.templates.detail', {
-                url: "/:mailId",
-                templateUrl: "modules/mail/mailtemplate-form.html"
+            .state('mail.entries.detail', {
+                url: "/:itemId",
+                templateUrl: function ($stateParams) {
+                    return 'modules/mail/' + $stateParams.resource + '-form.html';
+                }
             })
             .state('statistic', {
                 url: "/statistic",
